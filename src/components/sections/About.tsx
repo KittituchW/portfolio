@@ -94,7 +94,7 @@ export function About() {
                 borderLeft: '3px solid var(--cyan)',
               }}
             >
-              <p className="font-mono-tech text-xs" style={{ color: 'var(--cyan)' }}>
+              <p className="font-mono-tech text-sm" style={{ color: 'var(--cyan)' }}>
                 Published at <span className="font-semibold">AusDM&apos;25</span> (Brisbane) and{' '}
                 <span className="font-semibold">ICBDA 2026</span> (Waseda University, Tokyo)
               </p>
@@ -129,7 +129,7 @@ export function About() {
                       <Icon size={18} style={{ color: c.text }} />
                     </div>
                     <div
-                      className="font-mono-tech text-xs uppercase tracking-wider mb-1"
+                      className="font-mono-tech text-sm uppercase tracking-wider mb-1"
                       style={{ color: 'var(--muted)' }}
                     >
                       {fact.label}
@@ -137,7 +137,7 @@ export function About() {
                     <div className="font-orbitron font-bold text-sm mb-1" style={{ color: 'var(--text)' }}>
                       {fact.value}
                     </div>
-                    <div className="font-rajdhani text-xs" style={{ color: c.text }}>
+                    <div className="font-rajdhani text-sm" style={{ color: c.text }}>
                       {fact.sub}
                     </div>
                   </GlowCard>

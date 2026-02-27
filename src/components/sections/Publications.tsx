@@ -1,8 +1,89 @@
+'use client'
+import { useRef } from 'react'
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion'
 import { BookOpen, MapPin, Calendar, CheckCircle, ExternalLink } from 'lucide-react'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { TechBadge } from '@/components/ui/TechBadge'
-import { ScrollRevealCard } from '@/components/ui/ScrollRevealCard'
 import { publications } from '@/data/resume'
+
+function ParallaxCard({
+  children,
+  borderColor,
+  glowColor,
+  delay,
+}: {
+  children: React.ReactNode
+  borderColor: string
+  glowColor: string
+  delay: number
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  const springConfig = { stiffness: 160, damping: 22, mass: 0.5 }
+  const springX = useSpring(mouseX, springConfig)
+  const springY = useSpring(mouseY, springConfig)
+
+  const rotateX = useTransform(springY, [-0.5, 0.5], [7, -7])
+  const rotateY = useTransform(springX, [-0.5, 0.5], [-7, 7])
+  const glareX = useTransform(springX, [-0.5, 0.5], ['0%', '100%'])
+  const glareY = useTransform(springY, [-0.5, 0.5], ['0%', '100%'])
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.07) 0%, transparent 55%)`
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = ref.current?.getBoundingClientRect()
+    if (!rect) return
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5)
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5)
+  }
+
+  function handleMouseLeave() {
+    mouseX.set(0)
+    mouseY.set(0)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 60, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.85, ease: [0.25, 0.46, 0.45, 0.94], delay }}
+      style={{ perspective: 1000 }}
+      className="w-full"
+    >
+      <motion.div
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: 'preserve-3d',
+          border: `1px solid ${borderColor}`,
+          boxShadow: `0 8px 40px rgba(0,0,0,0.45)`,
+        }}
+        whileHover={{
+          scale: 1.015,
+          boxShadow: `0 16px 48px rgba(0,0,0,0.6), 0 0 28px ${glowColor}`,
+          transition: { duration: 0.25, ease: 'easeOut' },
+        }}
+        className="relative rounded-xl overflow-hidden backdrop-blur-md bg-[rgba(4,14,26,0.72)] p-6 flex flex-col w-full cursor-default"
+      >
+        {/* Glare layer */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none rounded-xl"
+          style={{ background: glareBackground }}
+        />
+        {/* Content lifted in Z */}
+        <div style={{ transform: 'translateZ(24px)', position: 'relative' }}>
+          {children}
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
 
 const accentMap = {
   cyan: {
@@ -36,12 +117,11 @@ export function Publications() {
             const accent = accentMap[pub.accentColor]
 
             return (
-              <ScrollRevealCard
+              <ParallaxCard
                 key={pub.conference}
                 delay={index * 0.15}
                 borderColor={accent.border}
                 glowColor={accent.glow}
-                className="p-6 flex flex-col w-full"
               >
                 {/* Header row */}
                 <div className="flex items-start justify-between gap-3 mb-4">
@@ -69,7 +149,7 @@ export function Publications() {
 
                 {/* Title */}
                 <h3
-                  className="font-rajdhani font-semibold text-base md:text-lg leading-snug mb-3"
+                  className="font-rajdhani font-semibold text-base md:text-2xl leading-snug mb-3"
                   style={{ color: 'var(--text)' }}
                 >
                   {pub.title}
@@ -79,13 +159,13 @@ export function Publications() {
                 <div className="space-y-1.5 mb-5">
                   <div className="flex items-center gap-2">
                     <MapPin size={12} style={{ color: 'var(--muted)' }} />
-                    <span className="font-mono-tech text-xs" style={{ color: 'var(--muted)' }}>
+                    <span className="font-mono-tech text-sm" style={{ color: 'var(--muted)' }}>
                       {pub.conference} — {pub.location}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar size={12} style={{ color: 'var(--muted)' }} />
-                    <span className="font-mono-tech text-xs" style={{ color: 'var(--muted)' }}>
+                    <span className="font-mono-tech text-sm" style={{ color: 'var(--muted)' }}>
                       {pub.date}
                     </span>
                   </div>
@@ -94,7 +174,7 @@ export function Publications() {
                 {/* Key findings */}
                 <div className="mb-5 flex-1">
                   <p
-                    className="font-mono-tech text-xs uppercase tracking-wider mb-3"
+                    className="font-mono-tech text-base uppercase tracking-wider mb-3"
                     style={{ color: accent.text }}
                   >
                     Key Findings
@@ -107,7 +187,7 @@ export function Publications() {
                         style={{ background: accent.bg, border: `1px solid ${accent.border}` }}
                       >
                         <CheckCircle size={12} className="flex-shrink-0 mt-0.5" style={{ color: accent.text }} />
-                        <span className="font-mono-tech text-xs" style={{ color: accent.text }}>
+                        <span className="font-mono-tech text-sm" style={{ color: accent.text }}>
                           {finding}
                         </span>
                       </div>
@@ -128,7 +208,7 @@ export function Publications() {
                     href={pub.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 self-start flex items-center gap-1.5 font-mono-tech text-xs px-3 py-1.5 rounded-lg transition-opacity duration-200 hover:opacity-80"
+                    className="mt-4 self-start flex items-center gap-1.5 font-mono-tech text-sm px-3 py-1.5 rounded-lg transition-opacity duration-200 hover:opacity-80"
                     style={{
                       color: accent.text,
                       background: accent.bg,
@@ -138,7 +218,7 @@ export function Publications() {
                     <ExternalLink size={12} /> View Publication
                   </a>
                 )}
-              </ScrollRevealCard>
+              </ParallaxCard>
             )
           })}
         </div>

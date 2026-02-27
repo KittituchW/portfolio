@@ -1,7 +1,7 @@
 interface TechBadgeProps {
   label: string
   color?: 'cyan' | 'orange' | 'green' | 'purple'
-  size?: 'sm' | 'md'
+  size?: 'sm' | 'md' | 'base' | 'lg' | 'xl'
   animationDelay?: number
 }
 
@@ -35,7 +35,7 @@ const colorStyles = {
 export function TechBadge({
   label,
   color = 'cyan',
-  size = 'sm',
+  size = 'base',
   animationDelay = 0,
 }: TechBadgeProps) {
   const styles = colorStyles[color]
@@ -44,7 +44,7 @@ export function TechBadge({
     <span
       className={`
         inline-block font-mono-tech rounded-full transition-all duration-200
-        ${size === 'sm' ? 'px-2 py-0.5 text-[10px]' : 'px-3 py-1 text-xs'}
+        ${size === 'base' ? 'px-2 py-0.5 text-[10px]' : size === 'lg' ? 'px-4 py-1.5 text-sm' : 'px-3 py-1 text-xs'}
       `}
       style={{
         backgroundColor: styles.bg,

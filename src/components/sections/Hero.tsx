@@ -263,7 +263,7 @@ export function Hero() {
       {/* Scroll indicator */}
       <motion.button
         onClick={() => scrollToSection('about')}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-[145px] left-1/2 -translate-x-1/2"
         style={{ color: 'var(--muted)' }}
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}

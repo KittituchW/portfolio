@@ -121,7 +121,7 @@ function ExperienceCard({ exp }: ExperienceCardProps) {
           <p className="font-rajdhani font-semibold text-sm" style={{ color: 'var(--cyan)' }}>
             {exp.company}
           </p>
-          <p className="font-mono-tech text-xs mt-0.5" style={{ color: 'var(--muted)' }}>
+          <p className="font-mono-tech text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
             {exp.location}
           </p>
         </div>
@@ -133,7 +133,7 @@ function ExperienceCard({ exp }: ExperienceCardProps) {
           }}
         >
           <Calendar size={10} style={{ color: 'var(--muted)' }} />
-          <span className="font-mono-tech text-xs" style={{ color: 'var(--muted)' }}>
+          <span className="font-mono-tech text-sm" style={{ color: 'var(--muted)' }}>
             {exp.period}
           </span>
         </div>

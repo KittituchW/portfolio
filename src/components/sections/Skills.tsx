@@ -55,7 +55,7 @@ export function Skills() {
               }}
             >
               <p
-                className="font-mono-tech text-xs uppercase tracking-widest mb-4 text-center"
+                className="font-mono-tech text-base uppercase tracking-widest mb-4 text-center"
                 style={{ color: 'var(--cyan)' }}
               >
                 Skill Overview
@@ -81,7 +81,7 @@ export function Skills() {
               }}
             >
               <p
-                className="font-mono-tech text-xs uppercase tracking-widest mb-4"
+                className="font-mono-tech text-base uppercase tracking-widest mb-4"
                 style={{ color: 'var(--cyan)' }}
               >
                 Tool Proficiency
@@ -101,7 +101,7 @@ export function Skills() {
           transition={{ duration: 0.6 }}
         >
           <p
-            className="font-mono-tech text-xs uppercase tracking-widest mb-6 text-center"
+            className="font-mono-tech text-base uppercase tracking-widest mb-6 text-center"
             style={{ color: 'var(--muted)' }}
           >
             Full Technology Stack
@@ -118,7 +118,7 @@ export function Skills() {
                 <TechBadge
                   label={tag}
                   color={tagColors[i % tagColors.length]}
-                  size="md"
+                  size="lg"
                   animationDelay={i * 100}
                 />
               </motion.span>

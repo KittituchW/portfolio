@@ -57,10 +57,11 @@ function AwardCard({ award, delay }: { award: AwardType; delay: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.5, delay, ease: 'easeOut' }}
+      className="flex h-full"
     >
       <GlowCard
         accentColor={award.accentColor === 'gold' ? 'orange' : award.accentColor}
-        className="p-5 h-full flex flex-col"
+        className="p-5 h-full min-h-[280px] flex flex-col w-full"
       >
         {/* Top row: icon + year badge */}
         <div className="flex items-start justify-between mb-4">

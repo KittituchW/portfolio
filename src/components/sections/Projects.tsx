@@ -64,7 +64,7 @@ function ProjectCard({ project }: { project: Project }) {
   const accent = accentColorMap[project.accentColor]
 
   return (
-    <GlowCard accentColor={project.accentColor} className="p-5 h-full flex flex-col group">
+    <GlowCard accentColor={project.accentColor} className="p-5 h-full min-h-[380px] flex flex-col group">
       {/* Icon + Award */}
       <div className="flex items-start justify-between mb-4">
         <div
@@ -74,18 +74,16 @@ function ProjectCard({ project }: { project: Project }) {
           <Icon size={18} style={{ color: accent.text }} />
         </div>
 
-        {project.award && (
-          <span
-            className="font-mono-tech text-[10px] px-2 py-1 rounded-full"
-            style={{
-              background: 'rgba(255,107,53,0.1)',
-              border: '1px solid rgba(255,107,53,0.3)',
-              color: '#ff6b35',
-            }}
-          >
-            {project.award}
-          </span>
-        )}
+        <span
+          className={`font-mono-tech text-sm px-2 py-1 rounded-full${!project.award ? ' invisible' : ''}`}
+          style={{
+            background: 'rgba(255,107,53,0.1)',
+            border: '1px solid rgba(255,107,53,0.3)',
+            color: '#ff6b35',
+          }}
+        >
+          {project.award ?? '\u00A0'}
+        </span>
       </div>
 
       {/* Title */}
@@ -120,7 +118,7 @@ function ProjectCard({ project }: { project: Project }) {
         ))}
         {project.tags.length > 4 && (
           <span
-            className="font-mono-tech text-xs px-2 py-0.5 rounded-full"
+            className="font-mono-tech text-sm px-2 py-0.5 rounded-full"
             style={{ color: 'var(--muted)', border: '1px solid rgba(255,255,255,0.1)' }}
           >
             +{project.tags.length - 4}
