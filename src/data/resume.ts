@@ -37,6 +37,7 @@ export interface Publication {
   findings: string[]
   tags: string[]
   accentColor: 'cyan' | 'purple'
+  link?: string
 }
 
 export interface Skill {
@@ -236,6 +237,7 @@ export const publications: Publication[] = [
     ],
     tags: ['TimeSformer', 'ViViT', 'VideoMAE', 'SAM', 'SPD', 'Cholesky'],
     accentColor: 'purple',
+    link: 'https://dl.acm.org/doi/10.1145/3717052.3726388',
   },
   {
     title: "Image-Structured Financial Time Series: Time-Space Transformers for Joint Return and Covariance Forecasting",
@@ -250,6 +252,7 @@ export const publications: Publication[] = [
     ],
     tags: ['Transformer', 'Financial Time Series', 'Pseudo-image', 'Spatial Encoding'],
     accentColor: 'cyan',
+    link: 'https://link.springer.com/chapter/10.1007/978-981-96-4289-7_17',
   },
 ]
 

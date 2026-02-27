@@ -4,7 +4,7 @@ import { contact, profile } from '@/data/resume'
 export function Footer() {
   return (
     <footer
-      className="relative py-8 px-6 border-t"
+      className="relative pt-8 pb-24 px-6 border-t"
       style={{
         borderColor: 'rgba(0,245,255,0.1)',
         background: 'rgba(3,15,28,0.8)',

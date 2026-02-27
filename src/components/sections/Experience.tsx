@@ -114,7 +114,7 @@ function ExperienceCard({ exp }: ExperienceCardProps) {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Briefcase size={14} style={{ color: 'var(--cyan)' }} />
-            <h3 className="font-orbitron font-bold text-sm md:text-base" style={{ color: 'var(--text)' }}>
+            <h3 className="font-orbitron font-bold text-sm md:text-" style={{ color: 'var(--text)' }}>
               {exp.role}
             </h3>
           </div>
@@ -144,7 +144,7 @@ function ExperienceCard({ exp }: ExperienceCardProps) {
         {exp.bullets.map((bullet, i) => (
           <li key={i} className="flex items-start gap-2">
             <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ background: 'var(--cyan)' }} />
-            <span className="font-rajdhani text-sm leading-relaxed" style={{ color: 'var(--text)' }}>
+            <span className="font-rajdhani text-base leading-relaxed" style={{ color: 'var(--text)' }}>
               {bullet}
             </span>
           </li>

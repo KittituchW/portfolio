@@ -5,7 +5,7 @@ import {
   Shield,
   Database,
   Brain,
-  ArrowRight,
+  Github,
 } from 'lucide-react'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { GlowCard } from '@/components/ui/GlowCard'
@@ -76,7 +76,7 @@ function ProjectCard({ project }: { project: Project }) {
 
         {project.award && (
           <span
-            className="font-mono-tech text-[9px] px-2 py-1 rounded-full"
+            className="font-mono-tech text-[10px] px-2 py-1 rounded-full"
             style={{
               background: 'rgba(255,107,53,0.1)',
               border: '1px solid rgba(255,107,53,0.3)',
@@ -90,7 +90,7 @@ function ProjectCard({ project }: { project: Project }) {
 
       {/* Title */}
       <h3
-        className="font-orbitron font-bold text-sm md:text-base mb-2"
+        className="font-orbitron font-bold text-base md:text-lg mb-2"
         style={{ color: 'var(--text)' }}
       >
         {project.title}
@@ -98,7 +98,7 @@ function ProjectCard({ project }: { project: Project }) {
 
       {/* Description */}
       <p
-        className="font-rajdhani text-sm leading-relaxed flex-1 mb-4"
+        className="font-rajdhani text-lg leading-relaxed flex-1 mb-4"
         style={{ color: 'var(--muted)' }}
       >
         {project.description}
@@ -120,7 +120,7 @@ function ProjectCard({ project }: { project: Project }) {
         ))}
         {project.tags.length > 4 && (
           <span
-            className="font-mono-tech text-[10px] px-2 py-0.5 rounded-full"
+            className="font-mono-tech text-xs px-2 py-0.5 rounded-full"
             style={{ color: 'var(--muted)', border: '1px solid rgba(255,255,255,0.1)' }}
           >
             +{project.tags.length - 4}
@@ -128,16 +128,20 @@ function ProjectCard({ project }: { project: Project }) {
         )}
       </div>
 
-      {/* View link - fades in on hover */}
+      {/* GitHub button - fades in on hover */}
       {project.link && (
         <a
           href={project.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1 font-mono-tech text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-auto"
-          style={{ color: accent.text }}
+          className="flex items-center gap-1.5 font-mono-tech text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-auto self-start px-3 py-1.5 rounded-lg"
+          style={{
+            color: accent.text,
+            background: accent.bg,
+            border: `1px solid ${accent.border}`,
+          }}
         >
-          View Project <ArrowRight size={12} />
+          <Github size={13} /> GitHub
         </a>
       )}
     </GlowCard>

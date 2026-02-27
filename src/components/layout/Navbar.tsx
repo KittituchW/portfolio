@@ -1,181 +1,123 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { useMemo } from 'react'
+import { navItems } from '@/data/nav'
 import { useScrollSpy } from '@/hooks/useScrollSpy'
-
-const NAV_LINKS = [
-  { id: 'hero', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'publications', label: 'Publications' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'awards', label: 'Awards' },
-  { id: 'contact', label: 'Contact' },
-]
+import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { cn } from '@/lib/utils'
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isVisible, setIsVisible] = useState(true)
-  const [scrolled, setScrolled] = useState(false)
-  const lastScrollY = useRef(0)
-  const activeSection = useScrollSpy(NAV_LINKS.map((l) => l.id), 80)
+  const ids = useMemo(() => navItems.map((item) => item.href.replace('#', '')), [])
+  const activeId = useScrollSpy(ids, 200)
+  const reducedMotion = useReducedMotion()
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      setScrolled(currentScrollY > 20)
-
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setIsVisible(false)
-        setIsMenuOpen(false)
-      } else {
-        setIsVisible(true)
-      }
-
-      lastScrollY.current = currentScrollY
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id)
+  const handleClick = (href: string) => {
+    const el = document.getElementById(href.replace('#', ''))
     if (el) {
-      const offset = 80
-      const top = el.getBoundingClientRect().top + window.scrollY - offset
-      window.scrollTo({ top, behavior: 'smooth' })
+      el.scrollIntoView({ behavior: 'smooth' })
     }
-    setIsMenuOpen(false)
   }
 
   return (
     <>
-      {/* Backdrop — sits above page content but below the nav, blocks stray taps on mobile */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 md:hidden"
-            onClick={() => setIsMenuOpen(false)}
-          />
-        )}
-      </AnimatePresence>
+      <style>{`
+        .rim-container {
+          position: relative;
+        }
+        .rim-container::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 9999px;
+          padding: 1.5px;
+          background: linear-gradient(var(--angle, 0deg), transparent 40%, #00f5ff 50%, transparent 60%);
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+          animation: rim-rotate 14s linear infinite;
+        }
+        .rim-container::after {
+          content: '';
+          position: absolute;
+          inset: -3px;
+          border-radius: 9999px;
+          padding: 4.5px;
+          background: linear-gradient(var(--angle, 0deg), transparent 35%, rgba(0, 245, 255, 0.35) 50%, transparent 65%);
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+          filter: blur(6px);
+          animation: rim-rotate 6s linear infinite;
+          pointer-events: none;
+        }
+        @keyframes rim-rotate {
+          0% { --angle: 0deg; }
+          100% { --angle: 360deg; }
+        }
+        @property --angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+      `}</style>
 
-    <motion.nav
-      initial={{ y: 0 }}
-      animate={{ y: isVisible ? 0 : '-100%' }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="fixed top-0 left-0 right-0 z-50"
-      style={{
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        background: scrolled ? 'rgba(2,11,20,0.9)' : 'rgba(2,11,20,0.7)',
-        borderBottom: '1px solid rgba(0,245,255,0.1)',
-        pointerEvents: isVisible ? 'auto' : 'none',
-      }}
-    >
-      {/* Rim light bottom border */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px"
-        style={{
-          background: 'linear-gradient(90deg, transparent 0%, #00f5ff 50%, transparent 100%)',
-          backgroundSize: '200% 100%',
-          animation: 'rimLight 3s linear infinite',
-        }}
-      />
-
-      <div className="container-max px-4 md:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <motion.button
-            onClick={() => scrollToSection('hero')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="font-orbitron font-black text-xl tracking-wider text-glow"
-            style={{ color: 'var(--cyan)' }}
-          >
-            KW
-          </motion.button>
-
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className="relative px-3 py-2 font-mono-tech text-xs uppercase tracking-wider transition-colors duration-200"
-                style={{
-                  color: activeSection === link.id ? 'var(--cyan)' : 'var(--muted)',
-                }}
-              >
-                {link.label}
-                {activeSection === link.id && (
-                  <motion.div
-                    layoutId="activeLink"
-                    className="absolute bottom-0 left-0 right-0 h-px"
-                    style={{ background: 'var(--cyan)' }}
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-3 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
-            style={{ color: 'var(--cyan)' }}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="md:hidden"
+      <nav
+        className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2"
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <div className={cn('rim-container rounded-full', reducedMotion && 'before:hidden after:hidden')}>
+          <div
+            className="relative flex items-center gap-0.5 rounded-full px-1.5 py-1.5 sm:gap-2 sm:px-4"
             style={{
-              background: 'rgba(2,11,20,0.97)',
-              borderTop: '1px solid rgba(0,245,255,0.1)',
+              background: 'rgba(5, 16, 34, 0.97)',
+              backdropFilter: 'blur(24px) saturate(200%)',
+              WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+              border: '1px solid rgba(0, 245, 255, 0.22)',
+              boxShadow: `
+                0 16px 48px rgba(0, 0, 0, 0.7),
+                0 4px 16px rgba(0, 0, 0, 0.4),
+                0 0 48px rgba(0, 245, 255, 0.14),
+                0 0 96px rgba(0, 245, 255, 0.06),
+                inset 0 1px 0 rgba(0, 245, 255, 0.12),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3)
+              `,
             }}
           >
-            <div className="px-4 py-4 flex flex-col gap-1">
-              {NAV_LINKS.map((link, i) => (
-                <motion.button
-                  key={link.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  onClick={() => scrollToSection(link.id)}
-                  className="text-left px-4 py-3 rounded-lg font-mono-tech text-sm uppercase tracking-wider transition-all duration-200"
-                  style={{
-                    color: activeSection === link.id ? 'var(--cyan)' : 'var(--muted)',
-                    background: activeSection === link.id ? 'rgba(0,245,255,0.08)' : 'transparent',
-                    cursor: 'pointer',
-                    touchAction: 'manipulation',
-                  }}
+            {navItems.map((item) => {
+              const Icon = item.icon
+              const id = item.href.replace('#', '')
+              const isActive = activeId === id
+              return (
+                <button
+                  key={item.href}
+                  onClick={() => handleClick(item.href)}
+                  className={cn(
+                    'rounded-full p-2.5 sm:px-4 sm:py-2 text-xs font-medium transition-all duration-200 sm:text-sm active:scale-90 font-mono-tech',
+                    isActive ? '' : 'hover:text-[rgba(0,245,255,0.75)]'
+                  )}
+                  style={
+                    isActive
+                      ? {
+                          color: '#00f5ff',
+                          background: 'rgba(0, 245, 255, 0.13)',
+                          boxShadow: 'inset 0 1px 0 rgba(0, 245, 255, 0.35), 0 0 20px rgba(0, 245, 255, 0.2)',
+                        }
+                      : { color: 'rgba(0, 245, 255, 0.42)' }
+                  }
+                  aria-current={isActive ? 'true' : undefined}
+                  aria-label={item.label}
                 >
-                  {link.label}
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+                  <span className="flex items-center gap-2">
+                    <Icon size={18} className="transition-colors duration-200" />
+                    <span className="hidden sm:inline">{item.label}</span>
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      </nav>
     </>
   )
 }
