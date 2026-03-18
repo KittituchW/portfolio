@@ -1,6 +1,6 @@
 'use client'
 import { useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { BookOpen, MapPin, Calendar, CheckCircle, ExternalLink } from 'lucide-react'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { TechBadge } from '@/components/ui/TechBadge'
@@ -28,10 +28,6 @@ function ParallaxCard({
 
   const rotateX = useTransform(springY, [-0.5, 0.5], [7, -7])
   const rotateY = useTransform(springX, [-0.5, 0.5], [-7, 7])
-  const glareX = useTransform(springX, [-0.5, 0.5], ['0%', '100%'])
-  const glareY = useTransform(springY, [-0.5, 0.5], ['0%', '100%'])
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.07) 0%, transparent 55%)`
-
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     const rect = ref.current?.getBoundingClientRect()
     if (!rect) return
@@ -71,11 +67,6 @@ function ParallaxCard({
         }}
         className="relative rounded-xl overflow-hidden backdrop-blur-md bg-[rgba(4,14,26,0.72)] p-6 flex flex-col w-full cursor-default"
       >
-        {/* Glare layer */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none rounded-xl"
-          style={{ background: glareBackground }}
-        />
         {/* Content lifted in Z */}
         <div style={{ transform: 'translateZ(24px)', position: 'relative' }}>
           {children}
@@ -204,19 +195,25 @@ export function Publications() {
 
                 {/* View Publication button */}
                 {pub.link && (
-                  <a
+                  <motion.a
                     href={pub.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 self-start flex items-center gap-1.5 font-mono-tech text-sm px-3 py-1.5 rounded-lg transition-opacity duration-200 hover:opacity-80"
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: `0 0 24px ${accent.glow}`,
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="mt-5 self-start flex items-center gap-2 px-5 py-2.5 rounded-lg font-rajdhani font-semibold text-sm uppercase tracking-wider"
                     style={{
                       color: accent.text,
                       background: accent.bg,
                       border: `1px solid ${accent.border}`,
+                      boxShadow: `0 0 12px ${accent.glow}`,
                     }}
                   >
-                    <ExternalLink size={12} /> View Publication
-                  </a>
+                    <ExternalLink size={14} /> View Publication
+                  </motion.a>
                 )}
               </ParallaxCard>
             )

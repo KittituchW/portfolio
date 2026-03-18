@@ -1,3 +1,4 @@
+import { CustomCursor } from '@/components/ui/CustomCursor'
 import { ParticleCanvas } from '@/components/canvas/ParticleCanvas'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
@@ -13,6 +14,8 @@ import { Contact } from '@/components/sections/Contact'
 export default function App() {
   return (
     <div className="relative min-h-screen" style={{ background: 'var(--bg)' }}>
+      <CustomCursor />
+
       {/* Particle canvas — fixed behind everything */}
       <ParticleCanvas />
 
