@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Github, Linkedin, ExternalLink } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { Mail, Phone, MapPin, Github, Linkedin, ExternalLink, ChevronDown, Clock, Briefcase, Globe } from 'lucide-react'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { contact, profile } from '@/data/resume'
@@ -47,7 +49,30 @@ const terminalLines = [
   { key: 'openTo', value: '["Full-time", "Research", "Relocation"]' },
 ]
 
+
+const faqs = [
+  {
+    q: 'Are you available for remote or hybrid work?',
+    a: "Yes — I'm open to remote, hybrid, and on-site roles in Sydney and internationally. I'm also open to relocation for the right opportunity.",
+  },
+  {
+    q: 'What types of roles are you looking for?',
+    a: "Machine Learning Engineer, Data Scientist, AI Research Engineer, or MLOps roles. I'm particularly interested in positions involving deep learning, financial modelling, transformer architectures, or production ML systems.",
+  },
+  {
+    q: 'What is your core technical stack?',
+    a: 'PyTorch, FastAPI, Docker, and GCP for production systems. Scikit-learn, XGBoost, and LightGBM for classical ML. HuggingFace Transformers for NLP and fine-tuning. Airflow, dbt, and BigQuery for data engineering.',
+  },
+  {
+    q: 'Do you have experience deploying models to production?',
+    a: "Yes — I've built and deployed end-to-end ML systems including containerised FastAPI microservices on Render, real-time Streamlit dashboards, and walk-forward validated forecasting pipelines for fintech applications.",
+  },
+]
+
 export function Contact() {
+  const reducedMotion = useReducedMotion()
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
   return (
     <section
       id="contact"
@@ -62,13 +87,42 @@ export function Contact() {
           centered
         />
 
+
+        {/* Trust signal — above contact grid */}
+        <motion.div
+          initial={reducedMotion ? {} : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: reducedMotion ? 0 : 0.5 }}
+          className="flex flex-wrap justify-center gap-4 mb-10 max-w-2xl mx-auto"
+        >
+          {[
+            { icon: Clock, text: 'Usually replies within 24h' },
+            { icon: Briefcase, text: 'Open to full-time & research roles' },
+            { icon: Globe, text: 'Open to relocation' },
+          ].map(({ icon: Icon, text }) => (
+            <div
+              key={text}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono-tech text-xs"
+              style={{
+                background: 'rgba(34,211,238,0.06)',
+                border: '1px solid rgba(34,211,238,0.18)',
+                color: 'var(--muted)',
+              }}
+            >
+              <Icon size={12} style={{ color: 'var(--cyan)' }} />
+              {text}
+            </div>
+          ))}
+        </motion.div>
+
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Contact info */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={reducedMotion ? {} : { opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
+            transition={{ duration: reducedMotion ? 0 : 0.7, ease: 'easeOut' }}
             className="space-y-3"
           >
             {contactItems.map((item, i) => {
@@ -87,8 +141,8 @@ export function Contact() {
                       <div
                         className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
                         style={{
-                          background: 'rgba(0,245,255,0.08)',
-                          border: '1px solid rgba(0,245,255,0.2)',
+                          background: 'rgba(34, 211, 238,0.08)',
+                          border: '1px solid rgba(34, 211, 238,0.2)',
                         }}
                       >
                         <Icon size={14} style={{ color: 'var(--cyan)' }} />
@@ -126,10 +180,10 @@ export function Contact() {
 
           {/* Terminal display */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={reducedMotion ? {} : { opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
+            transition={{ duration: reducedMotion ? 0 : 0.7, ease: 'easeOut' }}
           >
             <div
               className="rounded-xl overflow-hidden h-full"
@@ -172,11 +226,11 @@ export function Contact() {
                       className="flex items-start gap-2"
                     >
                       <span style={{ color: 'rgba(57,255,20,0.5)' }}>{'>'}</span>
-                      <span style={{ color: 'rgba(0,245,255,0.7)' }}>{line.key}</span>
+                      <span style={{ color: 'rgba(34, 211, 238,0.7)' }}>{line.key}</span>
                       <span style={{ color: 'var(--muted)' }}>:</span>
                       <span
                         style={{
-                          color: line.value.startsWith('[') ? '#ff6b35' : 'rgba(200,230,240,0.8)',
+                          color: line.value.startsWith('[') ? 'var(--pink)' : 'rgba(200,230,240,0.8)',
                         }}
                       >
                         {line.value}
@@ -220,12 +274,12 @@ export function Contact() {
               href={href}
               target={label !== 'Email' ? '_blank' : undefined}
               rel={label !== 'Email' ? 'noopener noreferrer' : undefined}
-              whileHover={{ scale: 1.15, boxShadow: '0 0 20px rgba(0,245,255,0.4)' }}
+              whileHover={{ scale: 1.15, boxShadow: '0 0 20px rgba(34, 211, 238,0.4)' }}
               whileTap={{ scale: 0.95 }}
               className="p-3 rounded-xl transition-all duration-200"
               style={{
-                background: 'rgba(0,245,255,0.06)',
-                border: '1px solid rgba(0,245,255,0.15)',
+                background: 'rgba(34, 211, 238,0.06)',
+                border: '1px solid rgba(34, 211, 238,0.15)',
                 color: 'var(--muted)',
               }}
               aria-label={label}
@@ -234,6 +288,74 @@ export function Contact() {
             </motion.a>
           ))}
         </motion.div>
+
+        {/* FAQ — AEO: helps AI assistants cite structured answers */}
+        <motion.div
+          initial={reducedMotion ? {} : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: reducedMotion ? 0 : 0.6, delay: 0.2 }}
+          className="mt-16 max-w-3xl mx-auto"
+        >
+          <p
+            className="font-mono-tech text-xs uppercase tracking-[0.2em] mb-6 text-center"
+            style={{ color: 'var(--cyan)' }}
+          >
+            // Frequently Asked
+          </p>
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                className="rounded-xl overflow-hidden"
+                style={{
+                  background: 'rgba(34,211,238,0.03)',
+                  border: `1px solid ${openFaq === i ? 'rgba(34,211,238,0.3)' : 'rgba(34,211,238,0.1)'}`,
+                  transition: 'border-color 0.2s',
+                }}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between px-5 py-4 text-left"
+                  aria-expanded={openFaq === i}
+                >
+                  <span className="font-rajdhani font-semibold text-sm md:text-base" style={{ color: 'var(--text)' }}>
+                    {faq.q}
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    style={{
+                      color: 'var(--cyan)',
+                      transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.2s ease',
+                      flexShrink: 0,
+                      marginLeft: '12px',
+                    }}
+                  />
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: reducedMotion ? 0 : 0.25, ease: 'easeOut' }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <p
+                        className="font-rajdhani text-sm md:text-base leading-relaxed px-5 pb-4"
+                        style={{ color: 'var(--muted)' }}
+                      >
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
       </div>
     </section>
   )

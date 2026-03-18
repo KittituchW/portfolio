@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { GraduationCap, MapPin, FlaskConical, Award } from 'lucide-react'
+import { profile } from '@/data/resume'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { GlowCard } from '@/components/ui/GlowCard'
 
@@ -7,7 +9,7 @@ const quickFacts = [
   {
     icon: GraduationCap,
     label: 'Education',
-    value: 'UTS Master of Data Science',
+    value: `UTS ${profile.education.degree}`,
     sub: 'GPA 6.78/7.0',
     color: 'cyan' as const,
   },
@@ -45,6 +47,8 @@ const itemVariants = {
 }
 
 export function About() {
+  const reducedMotion = useReducedMotion()
+
   return (
     <section
       id="about"
@@ -61,36 +65,29 @@ export function About() {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Bio */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={reducedMotion ? {} : { opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
+            transition={{ duration: reducedMotion ? 0 : 0.7, ease: 'easeOut' }}
           >
             <div className="space-y-5">
-              <p className="font-rajdhani text-base md:text-lg leading-relaxed" style={{ color: 'var(--text)' }}>
-                I&apos;m a Machine Learning Engineer and Data Scientist with a strong foundation in
-                deep learning, transformer architectures, and production ML systems. My research
-                focuses on applying video transformer models to financial time-series forecasting,
-                achieving state-of-the-art results over classical multivariate models.
-              </p>
-              <p className="font-rajdhani text-base md:text-lg leading-relaxed" style={{ color: 'var(--text)' }}>
-                I hold a Master of Data Science from the University of Technology Sydney with a GPA
-                of 6.78/7.0, and I am the recipient of the prestigious UTS President&apos;s Scholarship —
-                a fully funded award recognising exceptional research potential.
-              </p>
-              <p className="font-rajdhani text-base md:text-lg leading-relaxed" style={{ color: 'var(--muted)' }}>
-                My career goal is to bridge cutting-edge research with real-world deployable systems —
-                building ML pipelines that deliver measurable business value while advancing the field
-                through rigorous academic contributions.
-              </p>
+              {profile.about.split('\n\n').map((para, i) => (
+                <p
+                  key={i}
+                  className="font-rajdhani text-base md:text-lg leading-relaxed"
+                  style={{ color: i === profile.about.split('\n\n').length - 1 ? 'var(--muted)' : 'var(--text)' }}
+                >
+                  {para}
+                </p>
+              ))}
             </div>
 
             {/* Highlight bar */}
             <div
               className="mt-8 p-4 rounded-xl"
               style={{
-                background: 'rgba(0,245,255,0.04)',
-                border: '1px solid rgba(0,245,255,0.12)',
+                background: 'rgba(34, 211, 238,0.04)',
+                border: '1px solid rgba(34, 211, 238,0.12)',
                 borderLeft: '3px solid var(--cyan)',
               }}
             >
@@ -112,10 +109,10 @@ export function About() {
             {quickFacts.map((fact) => {
               const Icon = fact.icon
               const colorMap = {
-                cyan: { text: '#00f5ff', bg: 'rgba(0,245,255,0.08)', border: 'rgba(0,245,255,0.2)' },
+                cyan: { text: 'var(--cyan)', bg: 'rgba(34, 211, 238,0.08)', border: 'rgba(34, 211, 238,0.2)' },
                 green: { text: '#39ff14', bg: 'rgba(57,255,20,0.08)', border: 'rgba(57,255,20,0.2)' },
                 purple: { text: '#a855f7', bg: 'rgba(168,85,247,0.08)', border: 'rgba(168,85,247,0.2)' },
-                orange: { text: '#ff6b35', bg: 'rgba(255,107,53,0.08)', border: 'rgba(255,107,53,0.2)' },
+                orange: { text: 'var(--pink)', bg: 'rgba(244, 114, 182,0.08)', border: 'rgba(244, 114, 182,0.2)' },
               }
               const c = colorMap[fact.color]
 

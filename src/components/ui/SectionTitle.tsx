@@ -31,8 +31,8 @@ export function SectionTitle({ label, title, subtitle, centered = false }: Secti
 
       <div className={`relative inline-block ${centered ? 'mx-auto' : ''}`}>
         <h2
-          className="font-orbitron font-bold text-3xl md:text-4xl lg:text-5xl text-white mb-2"
-          style={{ textShadow: '0 0 30px rgba(0,245,255,0.15)' }}
+          className="font-orbitron font-bold text-white mb-2"
+          style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)', textShadow: '0 0 30px rgba(34,211,238,0.15)' }}
         >
           {title}
         </h2>

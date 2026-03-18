@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Github, Linkedin, ChevronDown, Download, Eye } from 'lucide-react'
 import { useTypewriter } from '@/hooks/useTypewriter'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { CountUp } from '@/components/ui/CountUp'
 import { profile, stats, contact } from '@/data/resume'
 
@@ -12,18 +13,22 @@ const containerVariants = {
   },
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-}
+const makeItemVariants = (reduced: boolean) => ({
+  hidden: { opacity: 0, y: reduced ? 0 : 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: reduced ? 0 : 0.6, ease: 'easeOut' } },
+})
 
 export function Hero() {
+  const reducedMotion = useReducedMotion()
+
   const { displayText } = useTypewriter({
     phrases: profile.typewriterPhrases,
     typeSpeed: 80,
     deleteSpeed: 40,
     pauseTime: 1800,
   })
+
+  const itemVariants = makeItemVariants(reducedMotion)
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [targetPos, setTargetPos] = useState({ x: 0, y: 0 })
@@ -76,7 +81,7 @@ export function Hero() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 60% 50% at 50% 40%, rgba(0,245,255,0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 60% 50% at 50% 40%, rgba(34, 211, 238,0.06) 0%, transparent 70%)',
           zIndex: 0,
         }}
       />
@@ -92,17 +97,17 @@ export function Hero() {
           <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono-tech text-xs uppercase tracking-widest"
             style={{
-              background: 'rgba(57,255,20,0.08)',
-              border: '1px solid rgba(57,255,20,0.25)',
-              color: '#39ff14',
+              background: 'rgba(34,211,238,0.08)',
+              border: '1px solid rgba(34,211,238,0.3)',
+              color: 'var(--cyan)',
             }}
           >
             <span
               className="w-2 h-2 rounded-full"
               style={{
-                backgroundColor: '#39ff14',
+                backgroundColor: 'var(--cyan)',
                 animation: 'pulse-glow 2s ease-in-out infinite',
-                boxShadow: '0 0 8px rgba(57,255,20,0.8)',
+                boxShadow: '0 0 8px rgba(34,211,238,0.8)',
               }}
             />
             Open to Work — Sydney, AU
@@ -119,17 +124,16 @@ export function Hero() {
           className="mb-4"
         >
           <h1 className="font-orbitron font-black leading-none">
-            <span
-              className="block text-5xl md:text-7xl lg:text-8xl text-glow"
-              style={{ color: 'var(--cyan)' }}
-            >
+            <span className="block gradient-text" style={{ fontSize: 'clamp(3rem, 8vw, 6rem)', lineHeight: 1 }}>
               {profile.nameShort}
             </span>
             <span
-              className="block text-3xl md:text-5xl lg:text-6xl mt-2"
+              className="block mt-2"
               style={{
+                fontSize: 'clamp(1.875rem, 5vw, 3.75rem)',
+                lineHeight: 1.1,
                 color: 'var(--text)',
-                textShadow: '0 0 30px rgba(0,245,255,0.15)',
+                textShadow: '0 0 30px rgba(34, 211, 238, 0.15)',
               }}
             >
               {profile.nameLast}
@@ -177,15 +181,15 @@ export function Hero() {
         {/* CTA Buttons */}
         <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-4 mb-16">
           <motion.button
-            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(0,245,255,0.5)' }}
+            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(34, 211, 238,0.5)' }}
             whileTap={{ scale: 0.95 }}
             onClick={() => scrollToSection('projects')}
             className="flex items-center gap-2 px-6 py-3 rounded-lg font-rajdhani font-semibold text-sm uppercase tracking-wider transition-all duration-200"
             style={{
-              background: 'rgba(0,245,255,0.15)',
-              border: '1px solid rgba(0,245,255,0.5)',
+              background: 'rgba(34, 211, 238,0.15)',
+              border: '1px solid rgba(34, 211, 238,0.5)',
               color: 'var(--cyan)',
-              boxShadow: '0 0 15px rgba(0,245,255,0.2)',
+              boxShadow: '0 0 15px rgba(34, 211, 238,0.2)',
             }}
           >
             <Eye size={16} />
@@ -200,7 +204,7 @@ export function Hero() {
             className="flex items-center gap-2 px-6 py-3 rounded-lg font-rajdhani font-semibold text-sm uppercase tracking-wider transition-all duration-200"
             style={{
               background: 'transparent',
-              border: '1px solid rgba(0,245,255,0.3)',
+              border: '1px solid rgba(34, 211, 238,0.3)',
               color: 'var(--cyan)',
             }}
           >
@@ -209,14 +213,14 @@ export function Hero() {
           </motion.a>
 
           <motion.a
-            whileHover={{ scale: 1.1, color: '#00f5ff' }}
+            whileHover={{ scale: 1.1, color: 'var(--cyan)' }}
             whileTap={{ scale: 0.95 }}
             href={`https://${contact.linkedin}`}
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 rounded-lg transition-all duration-200"
             style={{
-              border: '1px solid rgba(0,245,255,0.2)',
+              border: '1px solid rgba(34, 211, 238,0.2)',
               color: 'var(--muted)',
             }}
             aria-label="LinkedIn"
@@ -225,14 +229,14 @@ export function Hero() {
           </motion.a>
 
           <motion.a
-            whileHover={{ scale: 1.1, color: '#00f5ff' }}
+            whileHover={{ scale: 1.1, color: 'var(--cyan)' }}
             whileTap={{ scale: 0.95 }}
             href={`https://${contact.github}`}
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 rounded-lg transition-all duration-200"
             style={{
-              border: '1px solid rgba(0,245,255,0.2)',
+              border: '1px solid rgba(34, 211, 238,0.2)',
               color: 'var(--muted)',
             }}
             aria-label="GitHub"
@@ -265,7 +269,7 @@ export function Hero() {
         onClick={() => scrollToSection('about')}
         className="absolute bottom-[145px] left-1/2 -translate-x-1/2"
         style={{ color: 'var(--muted)' }}
-        animate={{ y: [0, 8, 0] }}
+        animate={reducedMotion ? {} : { y: [0, 8, 0] }}
         transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
         aria-label="Scroll down"
       >

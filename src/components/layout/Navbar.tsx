@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { navItems } from '@/data/nav'
 import { useScrollSpy } from '@/hooks/useScrollSpy'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
@@ -8,6 +8,16 @@ export function Navbar() {
   const ids = useMemo(() => navItems.map((item) => item.href.replace('#', '')), [])
   const activeId = useScrollSpy(ids, 200)
   const reducedMotion = useReducedMotion()
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      setScrollProgress(total > 0 ? (window.scrollY / total) * 100 : 0)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleClick = (href: string) => {
     const el = document.getElementById(href.replace('#', ''))
@@ -28,7 +38,7 @@ export function Navbar() {
           inset: 0;
           border-radius: 9999px;
           padding: 1.5px;
-          background: linear-gradient(var(--angle, 0deg), transparent 40%, #00f5ff 50%, transparent 60%);
+          background: linear-gradient(var(--angle, 0deg), transparent 40%, var(--cyan) 50%, transparent 60%);
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -41,7 +51,7 @@ export function Navbar() {
           inset: -3px;
           border-radius: 9999px;
           padding: 4.5px;
-          background: linear-gradient(var(--angle, 0deg), transparent 35%, rgba(0, 245, 255, 0.35) 50%, transparent 65%);
+          background: linear-gradient(var(--angle, 0deg), transparent 35%, rgba(34, 211, 238, 0.35) 50%, transparent 65%);
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -61,6 +71,22 @@ export function Navbar() {
         }
       `}</style>
 
+      {/* Scroll progress bar — fixed at top of viewport */}
+      <div
+        className="fixed top-0 left-0 z-[60] h-[2px] transition-all duration-100"
+        style={{
+          width: `${scrollProgress}%`,
+          background: 'linear-gradient(90deg, #22d3ee, #a855f7, #f472b6)',
+          boxShadow: '0 0 8px rgba(34,211,238,0.6)',
+          opacity: reducedMotion ? 0 : 1,
+        }}
+        role="progressbar"
+        aria-valuenow={Math.round(scrollProgress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Page scroll progress"
+      />
+
       <nav
         className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2"
         role="navigation"
@@ -73,13 +99,13 @@ export function Navbar() {
               background: 'rgba(5, 16, 34, 0.97)',
               backdropFilter: 'blur(24px) saturate(200%)',
               WebkitBackdropFilter: 'blur(24px) saturate(200%)',
-              border: '1px solid rgba(0, 245, 255, 0.22)',
+              border: '1px solid rgba(34, 211, 238, 0.22)',
               boxShadow: `
                 0 16px 48px rgba(0, 0, 0, 0.7),
                 0 4px 16px rgba(0, 0, 0, 0.4),
-                0 0 48px rgba(0, 245, 255, 0.14),
-                0 0 96px rgba(0, 245, 255, 0.06),
-                inset 0 1px 0 rgba(0, 245, 255, 0.12),
+                0 0 48px rgba(34, 211, 238, 0.14),
+                0 0 96px rgba(34, 211, 238, 0.06),
+                inset 0 1px 0 rgba(34, 211, 238, 0.12),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.3)
               `,
             }}
@@ -94,16 +120,16 @@ export function Navbar() {
                   onClick={() => handleClick(item.href)}
                   className={cn(
                     'rounded-full p-2.5 sm:px-4 sm:py-2 text-xs font-medium transition-all duration-200 sm:text-sm active:scale-90 font-mono-tech',
-                    isActive ? '' : 'hover:text-[rgba(0,245,255,0.75)]'
+                    isActive ? '' : 'hover:text-[rgba(34, 211, 238,0.75)]'
                   )}
                   style={
                     isActive
                       ? {
-                          color: '#00f5ff',
-                          background: 'rgba(0, 245, 255, 0.13)',
-                          boxShadow: 'inset 0 1px 0 rgba(0, 245, 255, 0.35), 0 0 20px rgba(0, 245, 255, 0.2)',
+                          color: 'var(--cyan)',
+                          background: 'rgba(34, 211, 238, 0.13)',
+                          boxShadow: 'inset 0 1px 0 rgba(34, 211, 238, 0.35), 0 0 20px rgba(34, 211, 238, 0.2)',
                         }
-                      : { color: 'rgba(0, 245, 255, 0.42)' }
+                      : { color: 'rgba(34, 211, 238, 0.42)' }
                   }
                   aria-current={isActive ? 'true' : undefined}
                   aria-label={item.label}

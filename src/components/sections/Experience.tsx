@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { GlowCard } from '@/components/ui/GlowCard'
 import { TechBadge } from '@/components/ui/TechBadge'
@@ -7,6 +8,8 @@ import { experiences } from '@/data/resume'
 import { Briefcase, Calendar } from 'lucide-react'
 
 export function Experience() {
+  const reducedMotion = useReducedMotion()
+
   return (
     <section id="experience" className="relative section-padding" style={{ zIndex: 1 }}>
       <div className="container-max">
@@ -37,8 +40,8 @@ export function Experience() {
                       className="absolute left-4 top-6 -translate-x-1/2 w-4 h-4 rounded-full"
                       style={{
                         background: 'var(--cyan)',
-                        boxShadow: '0 0 12px rgba(0,245,255,0.8)',
-                        animation: 'pulse-glow 2s ease-in-out infinite',
+                        boxShadow: '0 0 12px rgba(34, 211, 238,0.8)',
+                        animation: reducedMotion ? undefined : 'pulse-glow 2s ease-in-out infinite',
                         zIndex: 2,
                       }}
                     />
@@ -51,10 +54,10 @@ export function Experience() {
                     <div className={`flex-1 ${isLeft ? 'flex justify-end' : ''}`}>
                       {isLeft && (
                         <motion.div
-                          initial={{ opacity: 0, x: -60 }}
+                          initial={reducedMotion ? {} : { opacity: 0, x: -60 }}
                           whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true, margin: '-80px' }}
-                          transition={{ duration: 0.7, ease: 'easeOut' }}
+                          transition={{ duration: reducedMotion ? 0 : 0.7, ease: 'easeOut' }}
                           className="max-w-lg w-full"
                         >
                           <ExperienceCard exp={exp} side="left" />
@@ -69,8 +72,8 @@ export function Experience() {
                         style={{
                           background: 'var(--bg)',
                           border: '2px solid var(--cyan)',
-                          boxShadow: '0 0 15px rgba(0,245,255,0.8)',
-                          animation: 'pulse-glow 2s ease-in-out infinite',
+                          boxShadow: '0 0 15px rgba(34, 211, 238,0.8)',
+                          animation: reducedMotion ? undefined : 'pulse-glow 2s ease-in-out infinite',
                           zIndex: 2,
                         }}
                       />
@@ -80,10 +83,10 @@ export function Experience() {
                     <div className={`flex-1 ${!isLeft ? 'flex justify-start' : ''}`}>
                       {!isLeft && (
                         <motion.div
-                          initial={{ opacity: 0, x: 60 }}
+                          initial={reducedMotion ? {} : { opacity: 0, x: 60 }}
                           whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true, margin: '-80px' }}
-                          transition={{ duration: 0.7, ease: 'easeOut' }}
+                          transition={{ duration: reducedMotion ? 0 : 0.7, ease: 'easeOut' }}
                           className="max-w-lg w-full"
                         >
                           <ExperienceCard exp={exp} side="right" />
@@ -128,8 +131,8 @@ function ExperienceCard({ exp }: ExperienceCardProps) {
         <div
           className="flex items-center gap-1.5 px-3 py-1 rounded-full flex-shrink-0"
           style={{
-            background: 'rgba(0,245,255,0.06)',
-            border: '1px solid rgba(0,245,255,0.2)',
+            background: 'rgba(34, 211, 238,0.06)',
+            border: '1px solid rgba(34, 211, 238,0.2)',
           }}
         >
           <Calendar size={10} style={{ color: 'var(--muted)' }} />
