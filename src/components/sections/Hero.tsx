@@ -86,6 +86,36 @@ export function Hero() {
         }}
       />
 
+      {/* Spotlight beam */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+        {/* Outer beam */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '900px',
+            height: '75vh',
+            background: 'linear-gradient(to bottom, rgba(180,220,255,0.09) 0%, rgba(180,220,255,0.03) 65%, transparent 100%)',
+            clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+          }}
+        />
+        {/* Inner beam */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '480px',
+            height: '65vh',
+            background: 'linear-gradient(to bottom, rgba(180,220,255,0.13) 0%, rgba(180,220,255,0.04) 65%, transparent 100%)',
+            clipPath: 'polygon(50% 0%, 5% 100%, 95% 100%)',
+          }}
+        />
+      </div>
+
       <motion.div
         variants={containerVariants}
         initial="hidden"

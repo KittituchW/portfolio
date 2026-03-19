@@ -37,27 +37,41 @@ export function Navbar() {
           position: absolute;
           inset: 0;
           border-radius: 9999px;
-          padding: 1.5px;
-          background: linear-gradient(var(--angle, 0deg), transparent 40%, var(--cyan) 50%, transparent 60%);
+          padding: 1px;
+          background: linear-gradient(
+            var(--angle, 0deg),
+            transparent 42%,
+            #00f5ff 47%,
+            #a855f7 50%,
+            #ec4899 53%,
+            transparent 58%
+          );
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           mask-composite: exclude;
-          animation: rim-rotate 14s linear infinite;
+          animation: rim-rotate 10s linear infinite;
         }
         .rim-container::after {
           content: '';
           position: absolute;
-          inset: -3px;
+          inset: -1px;
           border-radius: 9999px;
-          padding: 4.5px;
-          background: linear-gradient(var(--angle, 0deg), transparent 35%, rgba(34, 211, 238, 0.35) 50%, transparent 65%);
+          padding: 3px;
+          background: linear-gradient(
+            var(--angle, 0deg),
+            transparent 36%,
+            rgba(0,245,255,0.15) 44%,
+            rgba(168,85,247,0.15) 50%,
+            rgba(236,72,153,0.15) 56%,
+            transparent 64%
+          );
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           mask-composite: exclude;
           filter: blur(6px);
-          animation: rim-rotate 6s linear infinite;
+          animation: rim-rotate 10s linear infinite;
           pointer-events: none;
         }
         @keyframes rim-rotate {
@@ -96,16 +110,14 @@ export function Navbar() {
           <div
             className="relative flex items-center gap-0.5 rounded-full px-1.5 py-1.5 sm:gap-2 sm:px-4"
             style={{
-              background: 'rgba(5, 16, 34, 0.97)',
+              background: 'rgba(6, 10, 18, 0.95)',
               backdropFilter: 'blur(24px) saturate(200%)',
               WebkitBackdropFilter: 'blur(24px) saturate(200%)',
-              border: '1px solid rgba(34, 211, 238, 0.22)',
+              border: '1px solid rgba(255,255,255,0.07)',
               boxShadow: `
                 0 16px 48px rgba(0, 0, 0, 0.7),
                 0 4px 16px rgba(0, 0, 0, 0.4),
-                0 0 48px rgba(34, 211, 238, 0.14),
-                0 0 96px rgba(34, 211, 238, 0.06),
-                inset 0 1px 0 rgba(34, 211, 238, 0.12),
+                inset 0 1px 0 rgba(255,255,255,0.05),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.3)
               `,
             }}
@@ -127,9 +139,9 @@ export function Navbar() {
                       ? {
                           color: 'var(--cyan)',
                           background: 'rgba(34, 211, 238, 0.13)',
-                          boxShadow: 'inset 0 1px 0 rgba(34, 211, 238, 0.35), 0 0 20px rgba(34, 211, 238, 0.2)',
+                          boxShadow: 'inset 0 1px 0 rgba(34, 211, 238, 0.35)',
                         }
-                      : { color: 'rgba(34, 211, 238, 0.42)' }
+                      : { color: 'rgba(255,255,255,0.4)' }
                   }
                   aria-current={isActive ? 'true' : undefined}
                   aria-label={item.label}
