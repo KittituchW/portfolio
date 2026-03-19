@@ -147,19 +147,16 @@ body {
 .font-mono-tech { font-family: 'Share Tech Mono', monospace; }
 
 .text-glow {
-  text-shadow: 0 0 10px rgba(34, 211, 238, 0.7), 0 0 20px rgba(34, 211, 238, 0.4);
+  /* glow removed — only card hover glows are active */
 }
 
 .text-glow-orange {
-  text-shadow: 0 0 10px rgba(244, 114, 182, 0.7), 0 0 20px rgba(244, 114, 182, 0.4);
 }
 
 .text-glow-green {
-  text-shadow: 0 0 10px rgba(57, 255, 20, 0.7), 0 0 20px rgba(57, 255, 20, 0.4);
 }
 
 .text-glow-purple {
-  text-shadow: 0 0 10px rgba(168, 85, 247, 0.7), 0 0 20px rgba(168, 85, 247, 0.4);
 }
 
 .glass {
@@ -179,7 +176,6 @@ body {
 
 .glow-border {
   border: 1px solid var(--cyan);
-  box-shadow: var(--glow);
 }
 
 .rim-light-bottom {
@@ -276,11 +272,11 @@ body {
   box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
 }
 
-/* Badge pulse variants */
-.badge-pulse-cyan { animation: pulse-glow 2s ease-in-out infinite; }
-.badge-pulse-orange { animation: glow-pulse-orange 2s ease-in-out infinite; }
-.badge-pulse-green { animation: glow-pulse-green 2s ease-in-out infinite; }
-.badge-pulse-purple { animation: glow-pulse-purple 2s ease-in-out infinite; }
+/* Badge pulse variants — disabled (card-hover-only glow mode) */
+.badge-pulse-cyan { }
+.badge-pulse-orange { }
+.badge-pulse-green { }
+.badge-pulse-purple { }
 
 /* Recharts custom */
 .recharts-polar-grid-concentric-polygon,

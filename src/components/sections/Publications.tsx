@@ -130,8 +130,6 @@ export function Publications() {
                       background: accent.badgeBg,
                       border: `1px solid ${accent.border}`,
                       color: accent.text,
-                      boxShadow: `0 0 12px ${accent.glow}`,
-                      textShadow: `0 0 8px ${accent.glow}`,
                     }}
                   >
                     {pub.badge}
@@ -209,7 +207,6 @@ export function Publications() {
                       color: accent.text,
                       background: accent.bg,
                       border: `1px solid ${accent.border}`,
-                      boxShadow: `0 0 12px ${accent.glow}`,
                     }}
                   >
                     <ExternalLink size={14} /> View Publication

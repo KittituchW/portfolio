@@ -15,7 +15,7 @@ export function CountUp({ target, suffix = '', duration = 2000, decimals = 0, la
 
   return (
     <div ref={ref as React.RefObject<HTMLDivElement>} className="text-center">
-      <div className="font-orbitron font-bold text-3xl md:text-4xl text-glow" style={{ color: 'var(--cyan)' }}>
+      <div className="font-orbitron font-bold text-3xl md:text-4xl" style={{ color: 'var(--cyan)' }}>
         {displayValue}
         <span className="text-2xl md:text-3xl">{suffix}</span>
       </div>

@@ -41,12 +41,11 @@ export function StatCallout({ value, label, color = 'cyan' }: StatCalloutProps) 
         backgroundColor: styles.bg,
         border: `1px solid ${styles.border}`,
         color: styles.text,
-        boxShadow: styles.glow,
       }}
     >
       <span
         className="w-1.5 h-1.5 rounded-full inline-block"
-        style={{ backgroundColor: styles.text, boxShadow: styles.glow }}
+        style={{ backgroundColor: styles.text }}
       />
       {value}
       {label && <span className="opacity-70 ml-1">{label}</span>}

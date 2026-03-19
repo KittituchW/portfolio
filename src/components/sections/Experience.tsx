@@ -40,8 +40,6 @@ export function Experience() {
                       className="absolute left-4 top-6 -translate-x-1/2 w-4 h-4 rounded-full"
                       style={{
                         background: 'var(--cyan)',
-                        boxShadow: '0 0 12px rgba(34, 211, 238,0.8)',
-                        animation: reducedMotion ? undefined : 'pulse-glow 2s ease-in-out infinite',
                         zIndex: 2,
                       }}
                     />
@@ -72,8 +70,6 @@ export function Experience() {
                         style={{
                           background: 'var(--bg)',
                           border: '2px solid var(--cyan)',
-                          boxShadow: '0 0 15px rgba(34, 211, 238,0.8)',
-                          animation: reducedMotion ? undefined : 'pulse-glow 2s ease-in-out infinite',
                           zIndex: 2,
                         }}
                       />

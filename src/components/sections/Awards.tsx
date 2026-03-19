@@ -69,7 +69,7 @@ function AwardCard({ award, delay }: { award: AwardType; delay: number }) {
             className="w-10 h-10 rounded-lg flex items-center justify-center"
             style={{ background: accent.bg, border: `1px solid ${accent.border}` }}
           >
-            <Icon size={18} style={{ color: accent.text, filter: `drop-shadow(${accent.glow})` }} />
+            <Icon size={18} style={{ color: accent.text }} />
           </div>
 
           <span
@@ -104,7 +104,6 @@ function AwardCard({ award, delay }: { award: AwardType; delay: number }) {
             style={{
               background: accent.bg,
               border: `1px solid ${accent.border}`,
-              boxShadow: accent.glow,
             }}
           >
             <span className="w-1.5 h-1.5 rounded-full" style={{ background: accent.text }} />

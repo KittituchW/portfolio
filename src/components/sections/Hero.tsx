@@ -106,8 +106,6 @@ export function Hero() {
               className="w-2 h-2 rounded-full"
               style={{
                 backgroundColor: 'var(--cyan)',
-                animation: 'pulse-glow 2s ease-in-out infinite',
-                boxShadow: '0 0 8px rgba(34,211,238,0.8)',
               }}
             />
             Open to Work — Sydney, AU
@@ -133,7 +131,6 @@ export function Hero() {
                 fontSize: 'clamp(1.875rem, 5vw, 3.75rem)',
                 lineHeight: 1.1,
                 color: 'var(--text)',
-                textShadow: '0 0 30px rgba(34, 211, 238, 0.15)',
               }}
             >
               {profile.nameLast}
@@ -152,7 +149,14 @@ export function Hero() {
         >
           <p className="font-orbitron text-xl md:text-2xl lg:text-3xl" style={{ color: 'var(--text)' }}>
             I build{' '}
-            <span className="text-glow" style={{ color: 'var(--cyan)' }}>
+            <span
+              style={{
+                background: 'linear-gradient(90deg, #00f5ff, #a855f7, #ec4899)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
               {displayText}
             </span>
             <span className="cursor-blink" />
@@ -189,7 +193,6 @@ export function Hero() {
               background: 'rgba(34, 211, 238,0.15)',
               border: '1px solid rgba(34, 211, 238,0.5)',
               color: 'var(--cyan)',
-              boxShadow: '0 0 15px rgba(34, 211, 238,0.2)',
             }}
           >
             <Eye size={16} />
